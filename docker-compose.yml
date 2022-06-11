@@ -1,0 +1,42 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:14.3-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: complex
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    restart: always
+  redis:
+    image: redis:7.0.0-alpine
+    volumes:
+      - ./data/redis:/data
+    restart: always
+  api:
+    build: ./server
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/complex?schema=public
+  worker:
+    depends_on:
+      - postgres
+      - redis
+    build: ./worker
+    environment:
+      - REDIS_URL=redis://redis:6379
+  client:
+    depends_on:
+      - api
+    build: ./client
+  nginx:
+    depends_on:
+      - client
+    build: ./nginx
+    restart: always
+    ports:
+      - "80:80"
