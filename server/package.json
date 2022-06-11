@@ -1,0 +1,22 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "node esbuild.config.js",
+    "build": "esbuild index.ts --bundle --minify --platform=node --target=node10.4 --external:./node_modules/* --outfile=dist/index.js"
+  },
+  "dependencies": {
+    "@fastify/cors": "^8.0.0",
+    "@prisma/client": "^3.15.0",
+    "fastify": "^4.0.1",
+    "redis": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.42",
+    "esbuild": "^0.14.43",
+    "prisma": "^3.15.1"
+  }
+}
