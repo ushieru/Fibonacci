@@ -19,14 +19,18 @@ function App() {
     </form>
 
     <h3>Indexes I have seen</h3>
-    {seenIndexes.map(index => <p key={index.number}>{index.number}</p>)}
+    <ul>
+      {seenIndexes.map(index => <li key={index.number}>{index.number}</li>)}
+    </ul>
     <h3>Calculated values</h3>
-    {
-      Object.entries(values)
-        .map(([key, value]) => <div key={key}>
-          For index {key} I calculated {value}
-        </div>)
-    }
+    <ul>
+      {
+        Object.entries(values)
+          .map(([key, value]) => <li key={key}>
+            For index {key} I calculated {value}
+          </li>)
+      }
+    </ul>
   </>
 }
 
